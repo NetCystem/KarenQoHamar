@@ -1,43 +1,40 @@
 package com.example.macbookair.demo;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.PhoneNumberUtils;
-import android.transition.Transition;
-import android.transition.TransitionManager;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageView;
+import android.view.Menu;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView;
+    private ListAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         listView = findViewById(R.id.listView);
+        final Intent intent = new Intent(MainActivity.this, contacts_information.class);
+        listAdapter = new ListAdapter(this);
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener((parent, view, position, id) -> {
 
-        listView.setAdapter(new ListAdapter(MainActivity.this));
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, listView.getItemAtPosition(position).toString(),Toast.LENGTH_SHORT).show();
-            }
+            intent.putExtra("name", Contacts.getNames()[position]);
+            intent.putExtra("phone", Contacts.getPhone_numbers()[position]);
+            intent.putExtra("image", Contacts.getImages()[position]);
+            intent.putExtra("email", Contacts.getE_mails()[position]);
+
+            startActivity(intent);
         });
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+        return true;
     }
 
 

@@ -20,42 +20,11 @@ public class ListAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
 
-    private int[] images = {R.drawable.martin,R.drawable.yervand,R.drawable.bob,R.drawable.bucky,R.drawable.steve,R.drawable.joney_ive};
-    private String names[] = {"Martin", "Yervand", "Bob", "Bucky","Steve","Joney"};
-    private String[] phone_numbers={"098179899","094880619","041179899","077727088","098524242","077587088"};
+
 
     public ListAdapter(Context context) {
         this.context = context;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    }
-
-    @Override
-    public int getCount() {
-        return names.length;
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return names[position];
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View view, ViewGroup parent) {
-
-        view = layoutInflater.inflate(R.layout.customized_list_view, null);
-        ImageView imageView=view.findViewById(R.id.imgView);
-        decodeSampledBitmapFromResource(context.getResources(),images[position],100,100);
-        imageView.setImageResource(images[position]);
-        TextView txt=view.findViewById(R.id.textView);
-        txt.setText(names[position]);
-        TextView txtPhoneNumber=view.findViewById(R.id.txtPhoneNumber);
-        txtPhoneNumber.setText(phone_numbers[position]);
-        return view;
     }
 
     private static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
@@ -95,4 +64,33 @@ public class ListAdapter extends BaseAdapter {
 
         return inSampleSize;
     }
+
+    @Override
+    public int getCount() {
+        return Contacts.getNames().length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return Contacts.getNames()[position];
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View view, ViewGroup parent) {
+
+        view = layoutInflater.inflate(R.layout.customized_list_view, null);
+        ImageView imageView = view.findViewById(R.id.imgView);
+        imageView.setImageBitmap(decodeSampledBitmapFromResource(context.getResources(), Contacts.getImages()[position], 100, 100));
+        TextView txt = view.findViewById(R.id.textView);
+        txt.setText(Contacts.getNames()[position]);
+        TextView txtPhoneNumber = view.findViewById(R.id.txtPhoneNumber);
+        txtPhoneNumber.setText(Contacts.getNames()[position]);
+        return view;
+    }
+
 }
