@@ -3,39 +3,32 @@ package com.example.macbookair.demo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
-public class MainActivity extends AppCompatActivity {
-    private ListView listView;
-    private ListAdapter listAdapter;
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        listView = findViewById(R.id.listView);
-        final Intent intent = new Intent(MainActivity.this, contacts_information.class);
-        listAdapter = new ListAdapter(this);
-        listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
 
-            intent.putExtra("name", Contacts.getNames()[position]);
-            intent.putExtra("phone", Contacts.getPhone_numbers()[position]);
-            intent.putExtra("image", Contacts.getImages()[position]);
-            intent.putExtra("email", Contacts.getE_mails()[position]);
 
-            startActivity(intent);
-        });
+        editText = findViewById(R.id.edittext);
+        Button button = findViewById(R.id.go);
+
+        button.setOnClickListener(this);
 
     }
-
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.my_menu, menu);
-        return true;
+    public void onClick(View v) {
+        Intent i = new Intent(MainActivity.this, Main2Activity.class);
+        i.putExtra("key", editText.getText().toString());
+        startActivity(i);
     }
-
-
 }
